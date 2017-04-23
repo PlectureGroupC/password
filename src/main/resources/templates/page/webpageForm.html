@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Form </title>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1> form </h1>
+            <p th:if="${validationError}" th:text="${validationError}">validation error</p>
+        </div>
+        <form role="form" action="/getvalue" th:action="@{/getvalue}" th:object="${valueForm}" method="post">
+            <div class="form-group">
+                <label class="control-label" for="inputName"><abbr title="required"></abbr> Webpage Name :</label>
+                <input type="text" class="form-control" id="inputName" name="Name" th:field="*{Name}" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="inputURL"><addr title="required"></addr> Webpage URL : </label>
+                <input type="text" class="form-control" id="inputURL" name="URL" th:field="*{URL}" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="inputUserID"><addr title="required"></addr> Webpage UserID : </label>
+                <input type="text" class="form-control" id="inputUserID" name="UserID" th:field="*{UserID}" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="inputPassword"><addr title="required"></addr> Webpage Password : </label>
+                <input type="password" class="form-control" id="inputPassword" name="Password" th:field="*{Password}" />
+            </div>
+            <button type="submit" class="btn btn-default"> send </button>
+        </form>
+    </div>
+</body>
+</html>
