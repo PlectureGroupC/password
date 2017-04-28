@@ -1,0 +1,12 @@
+## YAML Template.
+---
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:postgresql://localhost/passmana
+    username: plecture
+    password: dendaiisl
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
