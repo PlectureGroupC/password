@@ -4,36 +4,41 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class WebInfoForm {
-    @NotNull
+    @NotNull    //mail address
+    private String mailaddress;
+
     private String name;
 
-    @NotNull
-    private String URL;
+    private String url;
 
-    @NotNull
-    private String UserID;
+    private String userID;
 
-    @NotNull
     @Size(min = 8)  //8文字以下はなし
     private String password;
 
+    public String getMailaddress(){
+        return mailaddress;
+    }
+    public void setMailaddress(String mailaddress){
+        this.mailaddress = mailaddress;
+    }
     public String getName(){
         return name;
     }
     public void setName(String name){
         this.name = name;
     }
-    public String getURL(){
-        return URL;
+    public String getUrl(){
+        return url;
     }
-    public void setURL(String URL){
-        this.URL = URL;
+    public void setUrl(String url){
+        this.url = url;
     }
     public String getUserID(){
-        return UserID;
+        return userID;
     }
     public void setUserID(String UserID){
-        this.UserID = UserID;
+        this.userID = UserID;
     }
     public String getPassword(){
         return password;
