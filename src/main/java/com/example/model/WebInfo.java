@@ -8,7 +8,7 @@ import javax.persistence.Id;
 public class WebInfo {
     @Id
     @GeneratedValue
-    private String address;
+    private String mailaddress;
     private String name;
     private String url;
     private String userID;
@@ -17,8 +17,8 @@ public class WebInfo {
     public WebInfo(){
     }
 
-    public WebInfo(String address, String name, String url, String userID, String password){
-        this.address = address;
+    public WebInfo(String mailaddress, String name, String url, String userID, String password){
+        this.mailaddress = mailaddress;
         this.name = name;
         this.url = url;
         this.userID = userID;
