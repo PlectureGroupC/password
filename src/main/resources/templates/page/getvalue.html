@@ -11,8 +11,24 @@
 
         <table class="table table-striped table-bordered" th:object="${webInfoForm}">
             <tr>
+                <th class="col-md-3"> mailaddress </th>
+                <td class="col-md-9" th:text="*{mailaddress}"></td>
+            </tr>
+            <tr>
                 <th class="col-md-3"> Webpage Name </th>
-                <td class="col-md-9" th:text="*{name}"></td>
+                <td class="col-md-9" th:text="*{Name}"></td>
+            </tr>
+            <tr>
+                <th class="col-md-3"> Webpage url </th>
+                <td class="col-md-9" th:text="*{url}"></td>
+            </tr>
+            <tr>
+                <th class="col-md-3"> Webpage UserID </th>
+                <td class="col-md-9" th:text="*{UserID}"></td>
+            </tr>
+            <tr>
+                <th class="col-md-3"> Webpage Password </th>
+                <td class="col-md-9" th:text="*{Password}"></td>
             </tr>
         </table>
     </div>
