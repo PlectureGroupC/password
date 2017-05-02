@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.WebInfo;
 import com.example.repository.WebInfoRepository;
+import com.example.service.WebInfoService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -23,7 +24,7 @@ import com.example.form.*;
 @Controller
 public class WebInfoController {
     @Autowired
-    WebInfoRepository repository;
+    WebInfoService service;
 
     final static Logger logger = LoggerFactory.getLogger(WebInfoController.class);
 
@@ -34,7 +35,7 @@ public class WebInfoController {
 
     @RequestMapping(value = "/getvalue", method = RequestMethod.GET) // valueをログイン後のページのアドレスにする
     public String get(Model model){
-        model.addAttribute("data", repository.findAll());
+        model.addAttribute("data", service.selectAll());
         System.out.println("WebInfoController get throw");
         return "page/getvalue";
     }
@@ -42,6 +43,7 @@ public class WebInfoController {
     @RequestMapping(value = "/webpageForm", method = RequestMethod.GET)
     public String index(WebInfoForm form, Model model){
         String mailaddress = form.getMailaddress();
+        System.out.println(mailaddress);
         model.addAttribute("form", form);
         System.out.println("WebInfoController index throw");
         return "page/webpageForm";
@@ -73,13 +75,19 @@ public class WebInfoController {
     public String register(@ModelAttribute @Valid WebInfoForm form, BindingResult result, Model model){
         System.out.println("WebInfoController register throw");
         if(!result.hasErrors()){
+            String mailaddress = form.getMailaddress();
             String name = form.getName();
             String url = form.getUrl();
             String userID = form.getUserID();
             String password = form.getPassword();
-            repository.save(new WebInfo("test", name, url, userID, password));
+            service.save(new WebInfo(mailaddress, name, url, userID, password));
+            System.out.println("save");
+        }else{
+            model.addAttribute("validationError", "不正な値");
+            model.addAttribute("form", form);
+            return "page/webpageForm";
         }
-        model.addAttribute("data", repository.findAll());
+        model.addAttribute("data", service.selectAll());
         return "page/getvalue";
     }
 }
