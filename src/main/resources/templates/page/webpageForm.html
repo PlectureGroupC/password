@@ -11,7 +11,7 @@
             <p th:text="'Address : ' + ${webInfoForm.mailaddress}" />
     </div>
 
-        <form role="form" action="/getvalue" th:action="@{/getvalue}" th:object="${webInfoForm}" method="post">
+        <form role="form" action="/webpageForm" th:action="@{/webpageForm}" th:object="${webInfoForm}" method="post">
             <div class="form-group">
                 <input type="hidden" class="form-control" id="inputMailaddress" name="mailaddress" th:value="*{mailaddress}"/>
             </div>
