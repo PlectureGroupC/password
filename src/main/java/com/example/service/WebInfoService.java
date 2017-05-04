@@ -14,7 +14,7 @@ public class WebInfoService {
     @Autowired
     WebInfoRepository repository;
 
-    public List<WebInfo> selectAll(){
+    public List<WebInfo> findAll(){
         return repository.findAll();
     }
     public WebInfo save(WebInfo info){
