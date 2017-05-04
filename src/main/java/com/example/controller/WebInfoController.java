@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import com.example.model.WebInfo;
-import com.example.service.WebInfoService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -17,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 import com.example.form.*;
+import com.example.model.WebInfo;
+import com.example.service.WebInfoService;
+import org.springframework.web.servlet.ModelAndView;
 
-
+import java.util.List;
 
 @Controller
 public class WebInfoController {
@@ -34,17 +35,17 @@ public class WebInfoController {
 
     @RequestMapping(value = "/getvalue", method = RequestMethod.GET) // valueをログイン後のページのアドレスにする
     public String get(Model model){
-        model.addAttribute("data", service.selectAll());
+        model.addAttribute("data", service.findAll());
         System.out.println("WebInfoController get throw");
         return "page/getvalue";
     }
 
     @RequestMapping(value = "/webpageForm", method = RequestMethod.GET)
-    public String index(WebInfoForm form, Model model){
+    //homeからmailaddressを取得し、webpageFormに送信する
+    public String getWebpageForm(WebInfoForm form, Model model){
         String mailaddress = form.getMailaddress();
         System.out.println(mailaddress);
         model.addAttribute("form", form);
-        System.out.println("WebInfoController index throw");
         return "page/webpageForm";
     }
 
@@ -65,14 +66,14 @@ public class WebInfoController {
             System.out.println(url);
             System.out.println(userID);
             System.out.println(password);
-            return index(form, model);
+            return "forward:index";
         }
         return "page/getvalue";
     }
 
     @RequestMapping(value = "/webpageForm", method = RequestMethod.POST)
+    //webpageFormからWebInfoを取得、DBに保存する
     public String register(@ModelAttribute @Valid WebInfoForm form, BindingResult result, Model model){
-        System.out.println("WebInfoController register throw");
         if(!result.hasErrors()){
             String mailaddress = form.getMailaddress();
             String name = form.getName();
@@ -85,7 +86,16 @@ public class WebInfoController {
             model.addAttribute("form", form);
             return "page/webpageForm";
         }
-        model.addAttribute("data", service.selectAll());
+        model.addAttribute("data", service.findAll());
         return "page/getvalue";
+    }
+
+    @RequestMapping(value = "/webinfoList", method = RequestMethod.GET)
+    //homeからmailaddressを取得し、DBからデータを取得、送信
+    public String getWebInfoList(WebInfoForm form, Model model){
+        String mailaddress = form.getMailaddress();
+        List<WebInfo> WebInfoList = service.findWebInfosByMailaddress(mailaddress);
+        model.addAttribute(WebInfoList);
+        return "page/webinfoList";
     }
 }
