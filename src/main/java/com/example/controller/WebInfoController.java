@@ -95,7 +95,7 @@ public class WebInfoController {
     public String getWebInfoList(WebInfoForm form, Model model){
         String mailaddress = form.getMailaddress();
         List<WebInfo> WebInfoList = service.findWebInfosByMailaddress(mailaddress);
-        model.addAttribute(WebInfoList);
+        model.addAttribute("list", WebInfoList);
         return "page/webinfoList";
     }
 }
