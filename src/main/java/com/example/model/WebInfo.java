@@ -1,9 +1,9 @@
 package com.example.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "web_info")
+@Entity(name = "web_info")
 public class WebInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -11,19 +11,20 @@ public class WebInfo {
     private int number;
 
     @Column(name = "mail_address")
-    private String mailaddress;
+    public String mailaddress;
 
     @Column(name = "web_name")
-    private String name;
+    public String name;
 
     @Column(name = "web_url")
-    private String url;
+    public String url;
 
     @Column(name = "web_userid")
-    private String userID;
+    public String userID;
 
     @Column(name = "web_password")
-    private String password;
+    @Size(min = 8)
+    public String password;
 
     public WebInfo(){
     }
@@ -34,6 +35,10 @@ public class WebInfo {
         this.url = url;
         this.userID = userID;
         this.password = password;
+    }
+
+    public String toString(){
+        return mailaddress + " : " + name + " : " + url + " : " + userID + " : " + password;
     }
 
 }
