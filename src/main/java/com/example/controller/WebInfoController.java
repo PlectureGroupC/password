@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.model.WebInfo;
-import com.example.repository.WebInfoRepository;
 import com.example.service.WebInfoService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +80,6 @@ public class WebInfoController {
             String userID = form.getUserID();
             String password = form.getPassword();
             service.save(new WebInfo(mailaddress, name, url, userID, password));
-            System.out.println("save");
         }else{
             model.addAttribute("validationError", "不正な値");
             model.addAttribute("form", form);
