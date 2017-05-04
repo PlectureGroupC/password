@@ -18,7 +18,16 @@ public class WebInfoService {
         return repository.findAll();
     }
     public WebInfo save(WebInfo info){
-        repository.save(info);
-        return info;
+        return repository.save(info);
+    }
+    public WebInfo update(WebInfo info){
+        return repository.save(info);
+    }
+    public void delete(WebInfo info){
+        repository.delete(info);
+    }
+    public List<WebInfo> findWebInfosByMailaddress(String mailaddress){
+        List<WebInfo> infos = repository.findWebInfosByMailaddress(mailaddress);
+        return infos;
     }
 }
