@@ -36,4 +36,12 @@ public class WebInfo {
         this.userID = userID;
         this.password = password;
     }
+    public WebInfo(Integer number, String mailaddress, String name, String url, String userID, String password){
+        this.number = number;
+        this.mailaddress = mailaddress;
+        this.name = name;
+        this.url = url;
+        this.userID = userID;
+        this.password = password;
+    }
 }

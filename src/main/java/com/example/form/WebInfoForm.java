@@ -16,6 +16,8 @@ public class WebInfoForm {
     @Size(min = 8)  //8文字以下はなし
     private String password;
 
+    private Integer number;
+
     public String getMailaddress(){
         return mailaddress;
     }
@@ -45,5 +47,11 @@ public class WebInfoForm {
     }
     public void setPassword(String password){
         this.password = password;
+    }
+    public Integer getNumber(){
+        return number;
+    }
+    public void setNumber(Integer number){
+        this.number = number;
     }
 }
