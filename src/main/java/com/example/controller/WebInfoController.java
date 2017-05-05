@@ -8,16 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 import com.example.form.*;
 import com.example.model.WebInfo;
 import com.example.service.WebInfoService;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class WebInfoController {
 
     @RequestMapping(value = "/webpageForm", method = RequestMethod.GET)
     //homeからmailaddressを取得し、webpageFormに送信する
-    public String getWebpageForm(WebInfoForm form, Model model){
+    public String getWebForm(WebInfoForm form, Model model){
         String mailaddress = form.getMailaddress();
         System.out.println(mailaddress);
         model.addAttribute("form", form);
@@ -90,12 +89,24 @@ public class WebInfoController {
         return "page/getvalue";
     }
 
-    @RequestMapping(value = "/webinfoList", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/webinfoList/{mailaddress}", method = RequestMethod.GET)
     //homeからmailaddressを取得し、DBからデータを取得、送信
-    public String getWebInfoList(WebInfoForm form, Model model){
-        String mailaddress = form.getMailaddress();
+    public String getList(@PathVariable String mailaddress, Model model){
+        System.out.println(mailaddress);
         List<WebInfo> WebInfoList = service.findWebInfosByMailaddress(mailaddress);
         model.addAttribute("list", WebInfoList);
         return "page/webinfoList";
+    }
+
+    @RequestMapping(value = "/webinfo/delete/{number}", method = RequestMethod.GET)
+    //webinfoListでデータの削除を要求された時
+    //データを削除した後、リダイレクトしてwebinfoListを表示する
+    public String delete(@ModelAttribute @Valid @PathVariable Integer number, RedirectAttributes attributes, Model model){
+        System.out.println(String.valueOf(number));
+        WebInfo info = service.findWebInfoByNumber(number);
+        service.delete(info);
+        attributes.addFlashAttribute("deletemessage", "データを削除しました");
+        return "redirect:/webinfoList/" + info.mailaddress;
     }
 }
