@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> update page </title>
+    <link href="/honoka/css/bootstrap.css" th:href="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1> WebPage Infomation Update</h1>
+            <p th:if="${validationError}" th:text="${validationError}">validation error</p>
+        </div>
+        <div class="form-group">
+            <form class="form-horizontal" role="form" action="/webinfo/update" th:action="@{/webinfo/update}" th:object="${webInfoForm}" method="post">
+                <input type="hidden" id="inputNumber" name="number" th:value="*{number}" />
+                <input type="hidden" id="inputMailaddress" name="mailaddress" th:value="*{mailaddress}" />
+
+                <label class="control-label" for="inputName"><abbr title="required"></abbr> Webpage Name :</label>
+                <input type="text" class="form-control" id="inputName" name="name" th:field="*{name}" />
+
+                <label class="control-label" for="inputURL"><addr title="required"></addr> Webpage url : </label>
+                <input type="text" class="form-control" id="inputURL" name="url" th:field="*{url}" />
+
+                <label class="control-label" for="inputUserID"><addr title="required"></addr> Webpage UserID : </label>
+                <input type="text" class="form-control" id="inputUserID" name="userID" th:field="*{userID}" />
+
+                <label class="control-label" for="inputPassword"><addr title="required"></addr> Webpage Password : </label>
+                <input type="password" class="form-control" id="inputPassword" name="password" th:field="*{password}" />
+
+                <button type="submit" class="btn btn-default"> send </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
