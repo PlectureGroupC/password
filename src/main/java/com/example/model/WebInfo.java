@@ -8,7 +8,7 @@ public class WebInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "number")
-    private int number;
+    public int number;
 
     @Column(name = "mail_address")
     public String mailaddress;
@@ -36,9 +36,4 @@ public class WebInfo {
         this.userID = userID;
         this.password = password;
     }
-
-    public String toString(){
-        return mailaddress + " : " + name + " : " + url + " : " + userID + " : " + password;
-    }
-
 }
