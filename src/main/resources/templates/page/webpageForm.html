@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title> Form </title>
+    <script src="/js/rand.js" th:src="@{/js/rand.js}"></script>
+    <link href="/honoka/css/bootstrap.css" th:src="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
@@ -11,7 +13,7 @@
             <p th:text="'Address : ' + ${webInfoForm.mailaddress}" />
     </div>
 
-        <form role="form" action="/webpageForm" th:action="@{/webpageForm}" th:object="${webInfoForm}" method="post">
+        <form class="form-horizontal" role="form" action="/webpageForm" th:action="@{/webpageForm}" th:object="${webInfoForm}" method="post">
             <div class="form-group">
                 <input type="hidden" class="form-control" id="inputMailaddress" name="mailaddress" th:value="*{mailaddress}"/>
             </div>
@@ -31,8 +33,16 @@
                 <label class="control-label" for="inputPassword"><addr title="required"></addr> Webpage Password : </label>
                 <input type="password" class="form-control" id="inputPassword" name="password" th:field="*{password}" />
             </div>
+            <div class="form-group">
+
+            </div>
             <button type="submit" class="btn btn-default"> send </button>
         </form>
+        <form>
+            <input type="number" min="8" max="32" value="12" id="length" />
+            <input type="button" onClick="makeRandomstr()" value="乱数生成" />
+        </form>
+        <div id="output"></div>
     </div>
 </body>
 </html>
