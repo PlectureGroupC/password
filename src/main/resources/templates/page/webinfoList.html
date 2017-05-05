@@ -16,14 +16,17 @@
         <div class="row">
             <table id="table" class="table">
                 <tr th:each="webinfo : ${list}">
-                    <td th:text="${webinfo.number}"></td>
                     <td th:text="${webinfo.mailaddress}"></td>
                     <td th:text="${webinfo.name}"></td>
                     <td th:text="${webinfo.url}"></td>
                     <td th:text="${webinfo.userID}"></td>
                     <td th:text="${webinfo.password}"></td>
                     <td>
-                        変更
+                        <form role="form" action="/webinfo/getWebInfo" th:action="@{/webinfo/getWebInfo}" th:object="${webInfoForm}" method="get">
+                            <input type="hidden" id="inputNumber" name="number" th:value="${webinfo.number}" />
+                            <input type="hidden" id="inputMailaddress" name="mailaddress" th:value="${webinfo.mailaddress}"  />
+                            <button type="submit" class="btn btn-default"> 変更 </button>
+                        </form>
                     </td>
                     <td>
                         <a class="btn btn-warning" href="/webinfo/delete/${webinfo.number}" th:href="@{/webinfo/delete/{number}(number=${webinfo.number})}"> 削除 </a>
