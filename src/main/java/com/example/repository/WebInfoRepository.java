@@ -6,4 +6,5 @@ import java.util.*;
 
 public interface WebInfoRepository extends JpaRepository<WebInfo, Integer>{
     List<WebInfo> findWebInfosByMailaddress(String mailaddress);
+    WebInfo findWebInfoByNumber(Integer number);
 }

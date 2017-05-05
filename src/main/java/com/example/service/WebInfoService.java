@@ -30,4 +30,8 @@ public class WebInfoService {
         List<WebInfo> infos = repository.findWebInfosByMailaddress(mailaddress);
         return infos;
     }
+    public WebInfo findWebInfoByNumber(Integer number){
+        WebInfo info = repository.findWebInfoByNumber(number);
+        return info;
+    }
 }
