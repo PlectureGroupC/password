@@ -42,8 +42,6 @@ public class WebInfoController {
     @RequestMapping(value = "/webpageForm", method = RequestMethod.GET)
     //homeからmailaddressを取得し、webpageFormに送信する
     public String getWebForm(WebInfoForm form, Model model){
-        String mailaddress = form.getMailaddress();
-        System.out.println(mailaddress);
         model.addAttribute("form", form);
         return "page/webpageForm";
     }
@@ -103,10 +101,34 @@ public class WebInfoController {
     //webinfoListでデータの削除を要求された時
     //データを削除した後、リダイレクトしてwebinfoListを表示する
     public String delete(@ModelAttribute @Valid @PathVariable Integer number, RedirectAttributes attributes, Model model){
-        System.out.println(String.valueOf(number));
         WebInfo info = service.findWebInfoByNumber(number);
         service.delete(info);
         attributes.addFlashAttribute("deletemessage", "データを削除しました");
         return "redirect:/webinfoList/" + info.mailaddress;
+    }
+
+    @RequestMapping(value = "/webinfo/getWebInfo", method = RequestMethod.GET)
+    //webinfoListで変更が押下された時、mailaddressを送信し、遷移する
+    public String getWebInfo(WebInfoForm form, Model model){
+        model.addAttribute("form", form);
+        return "page/updateForm";
+    }
+
+    @RequestMapping(value = "/webinfo/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute @Valid WebInfoForm form, BindingResult result, Model model){
+        if(!result.hasErrors()){
+            Integer number = form.getNumber();
+            String mailaddress = form.getMailaddress();
+            String name = form.getName();
+            String url = form.getUrl();
+            String userID = form.getUserID();
+            String password = form.getPassword();
+            service.update(new WebInfo(number, mailaddress, name, url, userID, password));
+        }else{
+            model.addAttribute("validationError", "不正な値");
+            model.addAttribute("form", form);
+            return "page/updateForm";
+        }
+        return "page/getvalue";
     }
 }
