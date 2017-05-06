@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Home</title>
-    <link href="/honoka/css/bootstrap.css" th:src="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
+<head th:replace="_temp :: head ('Home')">
 </head>
 <body>
+<header th:replace="_temp :: header (${loginForm.mailaddress})"></header>
     <div class="container">
         <div class="page-header">
             <h1>Home</h1>
         </div>
-
-        <p th:text="'Address : ' + ${loginForm.mailaddress}" />
-
         <form role="form" action="/webpageForm" th:action="@{/webpageForm}" th:object="${webInfoForm}" method="get">
             <div class="form-group">
                 <input type="hidden" class="form-control" id="inputMailaddress" name="mailaddress" th:value="${loginForm.mailaddress}"  />

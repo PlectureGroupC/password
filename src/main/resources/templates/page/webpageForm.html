@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title> Form </title>
+<head th:replace="_temp :: head ('Register WebPage Infomation')">
     <script src="/js/rand.js" th:src="@{/js/rand.js}"></script>
-    <link href="/honoka/css/bootstrap.css" th:src="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
 </head>
 <body>
+<header th:replace="_temp :: header (${webInfoForm.mailaddress})"></header>
     <div class="container">
         <div class="page-header">
-            <h1> form </h1>
-            <p th:if="${validationError}" th:text="${validationError}">validation error</p>
-            <p th:text="'Address : ' + ${webInfoForm.mailaddress}" />
+            <div class="row">
+                <br />
+                <h1> form </h1>
+                <p th:if="${validationError}" th:text="${validationError}">validation error</p>
+            </div>
     </div>
 
         <form class="form-horizontal" role="form" action="/webpageForm" th:action="@{/webpageForm}" th:object="${webInfoForm}" method="post">
