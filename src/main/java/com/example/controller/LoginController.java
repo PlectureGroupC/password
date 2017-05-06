@@ -35,7 +35,7 @@ public class LoginController {
         return "page/index";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/home", method = RequestMethod.POST)
     public String login(@Validated @ModelAttribute LoginForm form, BindingResult result, Model model){
         System.out.println("LoginController login throw");
         System.out.println(result);
