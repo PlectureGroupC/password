@@ -15,7 +15,6 @@ import javax.validation.Valid;
 import com.example.form.*;
 import com.example.model.WebInfo;
 import com.example.service.WebInfoService;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -87,13 +86,13 @@ public class WebInfoController {
         return "page/getvalue";
     }
 
-
     @RequestMapping(value = "/webinfoList/{mailaddress}", method = RequestMethod.GET)
     //homeからmailaddressを取得し、DBからデータを取得、送信
     public String getList(@PathVariable String mailaddress, Model model){
         System.out.println(mailaddress);
         List<WebInfo> WebInfoList = service.findWebInfosByMailaddress(mailaddress);
         model.addAttribute("list", WebInfoList);
+        model.addAttribute("address", mailaddress);
         return "page/webinfoList";
     }
 
@@ -131,4 +130,10 @@ public class WebInfoController {
         }
         return "page/getvalue";
     }
+
+//    @RequestMapping(value = "/webinfo/detail/{number}", method = RequestMethod.GET)
+//    //webinfoListで詳細を押下された時、押下されたデータの詳細を送信
+//    public String getDetail(@ModelAttribute @Valid @PathVariable Integer number, Model model){
+//
+//    }
 }
