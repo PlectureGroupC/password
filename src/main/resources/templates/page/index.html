@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title> Hello </title>
+<head th:replace="_temp :: head ('Password Manager')">
 </head>
 <body>
     <div class="container">
@@ -12,7 +11,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <form role="form" action="/" th:action="@{/}" th:object="${loginForm}" method="post">
+                <form role="form" action="/home" th:action="@{/home}" th:object="${loginForm}" method="post">
                     <div class="form-group">
                         <label class="control-label" for="inputMailaddress"><addr title="required"> Address </addr></label>
                         <input type="text" class="form-control" id="inputMailaddress" name="mailaddress" th:filed="*{mailaddress}" />
