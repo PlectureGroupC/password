@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head (title)">
+    <title th:text="${title}">Title</title>
+    <meta charset="UTF-8" />
+    <link href="/honoka/css/bootstrap.css" th:src="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
+    <script src="/vendor/jquery/jquery-1.11.3.js" th:src="@{/vendor/jquery/jquery-1.11.3.js}"></script>
+</head>
+<body>
+    <header th:fragment="header (mailaddress)">
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand">Password Manager</a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-main">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <form role="form" action="/home" th:action="@{/home}" th:object="${loginForm}" method="post">
+                                <br />
+                                <input type="hidden" id="inputMailaddress" name="mailaddress" th:value="${mailaddress}" />
+                                <button type="submit" class="btn btn-default"> Home </button>
+                            </form>
+                        </li>
+                        <li><a href="/" class="btn btn-danger">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+</body>
+</html>

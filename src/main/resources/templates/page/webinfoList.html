@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_temp :: head ('WebPage Infomation List')">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="/js/table.js" th:src="@{/js/table.js}"></script>
+</head>
+<body>
+<header th:replace="_temp :: header (${address})"></header>
+    <div class="container">
+        <div class="page-header" id="banner">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <br />
+                    <h1> WebPage Infomation </h1>
+                    <p th:if="${deletemessage}" th:text="${deletemessage}">delete message</p>
+            </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <table id="table" class="table">
+                <thead>
+                    <tr>
+                        <td>WebPage Name</td>
+                        <td>WebPage UserID</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="webinfo : ${list}">
+                        <td th:text="${webinfo.name}"></td>
+                        <td th:text="${webinfo.userID}"></td>
+                        <td>
+                            <a class="btn btn-primary" href="/webinfo/detail/${webinfo.number}" th:href="@{/webinfo/detail/{number}(number=${webinfo.number})}"> 詳細 </a>
+                        </td>
+                        <td>
+                            <form role="form" action="/webinfo/getWebInfo" th:action="@{/webinfo/getWebInfo}" th:object="${webInfoForm}" method="get">
+                                <input type="hidden" id="inputNumber" name="number" th:value="${webinfo.number}" />
+                                <input type="hidden" id="inputMailaddress" name="mailaddress" th:value="${webinfo.mailaddress}"  />
+                                <button type="submit" class="btn btn-info"> 変更 </button>
+                            </form>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" href="/webinfo/delete/${webinfo.number}" th:href="@{/webinfo/delete/{number}(number=${webinfo.number})}"> 削除 </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
