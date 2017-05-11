@@ -6,8 +6,10 @@
 <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 </head>
 <body>
-<h3>ログインフォーム</h3>
-<p th:if="${param.error}">Error!</p>
+<h2>ログインフォーム</h2>
+<div th:if="${param.error}" class="alert alert-danger">
+	ユーザ名またはパスワードが正しくありません
+</div>
 <form th:action="@{/login}" method="POST">
 	<table>
 		<tr>
@@ -20,10 +22,11 @@
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><button type="submit">ログイン</button></td>
+			<td><button class="btn btn-1g btn-primary" type="submit">ログイン</button></td>
 		</tr>
 	</table>
 	</form>
-	<p>アカウントをお持ちでない方は<a th:href="@{/account}">こちら</a></p>
+	<p>アカウントをお持ちでない方は<a th:href="@{/account/create}">こちら</a></p>
+	<p>パスワードをお忘れの方は<a th:href="@{/account/forgot}">こちら</a></p>
 </body>
 </html>
