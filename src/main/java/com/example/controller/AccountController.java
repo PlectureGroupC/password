@@ -6,10 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.domain.model.Account;
 import com.example.domain.service.AccountService;
@@ -26,19 +25,20 @@ public class AccountController {
 		return new AccountForm();
 	}
 	
-	@PostMapping(path="register")
-	String create(@Validated AccountForm form, 
-			BindingResult result, Model model) {
+	@RequestMapping(value="create", method=RequestMethod.POST)
+	String create(@Validated AccountForm form, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-			return "create";
+			return "/account/create";
 		}
 		Account account = new Account();
 		BeanUtils.copyProperties(form, account);
 		accountService.create(account);
-		return "mypage";
+		return "redirect:/index";
 	}
-	@GetMapping
-	String create() {
-		return "account/register-form";
+	
+	@RequestMapping(value="create", method=RequestMethod.GET)
+	String create(Model model) {
+		model.addAttribute("form", new AccountForm());
+		return "/account/create";
 	}
 }
