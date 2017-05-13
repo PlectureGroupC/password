@@ -1,0 +1,5 @@
+@CHARSET "UTF-8";
+.select-non{
+	user-select: none;
+	touch-callout: none;
+}
