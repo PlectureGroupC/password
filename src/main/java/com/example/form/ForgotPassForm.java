@@ -6,11 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AccountForm {
-	@NotNull
-	@Size(min = 1, max = 100)
-	private String username;
-	
+public class ForgotPassForm {
 	@NotNull
 	@Size(min = 1, max = 100)
 	private String mailAddress;
@@ -20,10 +16,5 @@ public class AccountForm {
 	private String confirmMail;
 	
 	@NotNull
-	@Size(min = 12, max = 100)
-	private String password;
-	
-	@NotNull
-	@Size(min = 12, max = 100)
-	private String confirmPass;
+	private String[] imgs;
 }

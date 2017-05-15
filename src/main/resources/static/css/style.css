@@ -1,5 +1,21 @@
 @CHARSET "UTF-8";
-.select-non{
-	user-select: none;
-	touch-callout: none;
+.checkbox{
+	float: left;
+ 	margin: 0px 10px 10px 10px;
+ 	 display: block;
+}
+.clearfix:after {
+ content: ".";
+ display: block;
+ height: 0;
+ clear: both;
+ visibility: hidden;
+}
+.ul{
+	list-style: none;
+}
+.contain{
+	object-fit: contain;
+  	width: 130px;
+  	height: 130px;
 }

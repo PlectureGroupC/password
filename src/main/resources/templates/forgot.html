@@ -5,29 +5,18 @@
 	<title>forgotPass</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-	<script src="https://code.jquery.com/jquery-3.0.0.min.js" type="text/javascript"></script>
-	<script>
-	$("input[type=checkbox]").click(function(){
-    	var $count = $("input[type=checkbox]:checked").length;
-    	var $not = $('input[type=checkbox]').not(':checked')
-    	if($count >= 3) {
-        	$not.attr("disabled",true);
-    	}else{
-        	$not.attr("disabled",false);
-    	}
-	});
-	</script>
 </head>
 <body>
 	<h2>Input Email and select images.</h2>
-	<div th:if="${param.error}" class="alert alert-danger">
-		ユーザ名またはパスワードが正しくありません
+	<div th:if="${accountNotFoundError}" th:text="${errorMessage}" class="alert alert-danger">
+		
 	</div>
+	<div th:if="${checkboxError}" th:text="${checkboxErrorMessage}" class="alert alert-danger"></div>
 	
 	<p>登録中のメールアドレスを入力し、アカウント登録時に選択した画像3枚を選んでください</p>
 	<div class="center-block">
 	<div>
-	<form th:action="@{/account/forgotPass}" th:object="${accountForm}" method="POST">
+	<form th:action="@{/forgot}" th:object="${forgotPassForm}" method="POST">
 		<table>
 			<tr>
 				<td><label for="email">Email:</label></td>
@@ -46,7 +35,7 @@
                 </ul>
             </div>
 		</div>
-		<button class="btn btn-1g btn-primary" type="submit">登録</button>
+		<button class="btn btn-1g btn-primary" type="submit">送信</button>
 	</form>
 	</div>
 	</div>
