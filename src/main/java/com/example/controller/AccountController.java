@@ -48,6 +48,7 @@ public class AccountController {
 	@RequestMapping(value="create", method=RequestMethod.GET)
 	String create(Model model) {
 		model.addAttribute("form", new AccountForm());
+		model.addAttribute("checkItems", CHECK_ITEMS);
 		return "/account/create";
 	}
 	
@@ -64,7 +65,7 @@ public class AccountController {
 		}
 		return "";
 	}
-	
+
 	final static Map<String, String> CHECK_ITEMS =
 		    Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
 				private static final long serialVersionUID = 178167752967848875L;
