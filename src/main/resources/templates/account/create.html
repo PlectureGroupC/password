@@ -34,6 +34,16 @@
 			<td><input type="password" th:field="*{confirmPass}" id="confirmPass" name="confirmPass" /></td>
 		</tr>
 		<tr>
+			<td th:each="list : ${checkItems}">
+				<div class="checkbox">
+					<ul class="ul">
+						<li><input type="checkbox" name="imgs" th:value="${list.value}"></input></li>
+						<li><img class="contain" th:src="@{${list.key}}" /></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		<tr>
 			<td>&nbsp;</td>
 			<td><button class="btn btn-1g btn-primary" type="submit">登録</button></td>
 		</tr>
