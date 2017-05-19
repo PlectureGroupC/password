@@ -53,11 +53,23 @@ public class AccountController {
 	//account生成の時に呼び出す
 	String create(@Validated AccountForm form, BindingResult result, Model model) {
 		if(result.hasErrors()) {
+			model.addAttribute("error", true);
+			model.addAttribute("errorMessage","入力に不備があります。再度入力してください。");
 			return "/account/create";
 		}
 		if(!form.getMailAddress().equals(form.getConfirmMail())){
-			model.addAttribute("mailError", true);
-			model.addAttribute("mailErrorMessage", "MailとMail(確認用)の入力が一致しません");
+			model.addAttribute("error", true);
+			model.addAttribute("errorMessage", "EMailとEMail(確認用)の入力が一致しません");
+			return "/account/create";
+		}
+		else if(!form.getPassword().equals(form.getConfirmPass())){
+			model.addAttribute("error", true);
+			model.addAttribute("errorMessage","PasswordとPassword(確認用)の入力が一致しません");
+			return "/account/create";
+		}
+		else if(form.getImgPath().size() != 3){
+			model.addAttribute("error", true);
+			model.addAttribute("errorMessage", "Password復元時に使用する画像を3枚選択してください");
 			return "/account/create";
 		}
 		Account account = new Account();
