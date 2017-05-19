@@ -23,6 +23,7 @@ public class AccountService {
 	
 	public Account create(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setImgHash(passwordEncoder.encode(account.getImgHash()));
         return accountRepository.saveAndFlush(account);
     }
 	
