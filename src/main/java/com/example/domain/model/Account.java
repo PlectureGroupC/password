@@ -29,16 +29,22 @@ public class Account implements Serializable{
 	
 	@Column(name="password", nullable=false)
 	private String password;
+
+	@Column(name="imgHash", nullable=false)
+	private String imgHash;
 	
 	@Column(name="enabled")
 	private boolean enabled;
+	//accountロック
 	
 	@Column(name="created_on")
 	private Date createdOn;
+	//account生成時の時間、resetToken発行の時間
 	
 	@Column(name = "last_login")
 	private Date lastLogin;
 	
 	@Column(name="reset_token")
 	private String resetToken;
+	//メールを送る時のトークン
 }

@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import java.util.*;
 
 @Data
 public class AccountForm {
@@ -26,4 +27,7 @@ public class AccountForm {
 	@NotNull
 	@Size(min = 12, max = 100)
 	private String confirmPass;
+
+	@NotNull
+	private List<String> imgPath;
 }
