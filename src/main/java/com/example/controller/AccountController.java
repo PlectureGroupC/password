@@ -28,8 +28,29 @@ public class AccountController {
 	AccountForm setUpForm() {
 		return new AccountForm();
 	}
+
+	@ModelAttribute("checkItems")
+	private Map<String, String> getCheckItems(){
+		final Map<String, String> CHECK_ITEMS =
+				Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
+					private static final long serialVersionUID = 178167752967848875L;
+					{
+						put("/images/img1.png", "1");
+						put("/images/img2.png", "2");
+						put("/images/img3.png", "3");
+						put("/images/img4.png", "4");
+						put("/images/img5.png", "5");
+						put("/images/img6.png", "6");
+						put("/images/img7.png", "7");
+						put("/images/img8.png", "8");
+						put("/images/img9.png", "9");
+					}
+				});
+		return CHECK_ITEMS;
+	}
 	
 	@RequestMapping(value="create", method=RequestMethod.POST)
+	//account生成の時に呼び出す
 	String create(@Validated AccountForm form, BindingResult result, Model model) {
 		if(result.hasErrors()) {
 			return "/account/create";
@@ -40,21 +61,23 @@ public class AccountController {
 			return "/account/create";
 		}
 		Account account = new Account();
+		for(String path: form.getImgPath()){
+			System.out.println(path);
+		}
 		BeanUtils.copyProperties(form, account);
 		accountService.create(account);
 		return "redirect:/index";
 	}
 	
 	@RequestMapping(value="create", method=RequestMethod.GET)
+	//初期画面からaccount生成画面への遷移
 	String create(Model model) {
 		model.addAttribute("form", new AccountForm());
-		model.addAttribute("checkItems", CHECK_ITEMS);
 		return "/account/create";
 	}
 	
 	@RequestMapping(value="forgotPass", method=RequestMethod.GET)
 	String forgotPass(Model model) {
-		model.addAttribute("checkItems", CHECK_ITEMS);
 		return "/account/forgotPassword";
 	}
 	
@@ -66,19 +89,5 @@ public class AccountController {
 		return "";
 	}
 
-	final static Map<String, String> CHECK_ITEMS =
-		    Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
-				private static final long serialVersionUID = 178167752967848875L;
-				{
-					put("/images/img1.png", "1");
-					put("/images/img2.png", "2");
-					put("/images/img3.png", "3");
-					put("/images/img4.png", "4");
-					put("/images/img5.png", "5");
-					put("/images/img6.png", "6");
-					put("/images/img7.png", "7");
-					put("/images/img8.png", "8");
-					put("/images/img9.png", "9");
-				}
-		    });
+
 }
