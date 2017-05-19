@@ -1,9 +1,8 @@
 package com.example.controller;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
+import com.example.domain.service.ImageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +22,9 @@ import com.example.form.AccountForm;
 public class AccountController {
 	@Autowired
 	AccountService accountService;
+
+	@Autowired
+	ImageService imageService;
 	
 	@ModelAttribute
 	AccountForm setUpForm() {
@@ -73,10 +75,15 @@ public class AccountController {
 			return "/account/create";
 		}
 		Account account = new Account();
+		String hashSeed = "";
 		for(String path: form.getImgPath()){
-			System.out.println(path);
+			//Image image = imageService.findImageByImgName(path);
+			//hashSeed = hashSeed + image.getSeed();
+			hashSeed = hashSeed + imageService.findImgSeedByImgName(path);
+			//hashSeed = hashSeed + path;
 		}
 		BeanUtils.copyProperties(form, account);
+		account.setImgHash(hashSeed);
 		accountService.create(account);
 		return "redirect:/index";
 	}
@@ -100,6 +107,4 @@ public class AccountController {
 		}
 		return "";
 	}
-
-
 }
