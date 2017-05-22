@@ -11,7 +11,7 @@
 <body>
 	<h2>アカウント登録画面</h2>
 	<form th:action="@{/account/create}" th:object="${accountForm}" method="POST">
-	<div th:if="${mailError}" th:text="${mailErrorMessage}" class="alert alert-danger"></div>
+	<div th:if="${error}" th:text="${errorMessage}" class="alert alert-danger"></div>
 	<table>
 		<tr>
 			<td><label for="username">UserName:</label></td>
@@ -34,10 +34,15 @@
 			<td><input type="password" th:field="*{confirmPass}" id="confirmPass" name="confirmPass" /></td>
 		</tr>
 		<tr>
+			<td>
+				<label>以下から画像を3枚選択してください</label>
+			</td>
+		</tr>
+		<tr>
 			<td th:each="list : ${checkItems}">
 				<div class="checkbox">
 					<ul class="ul">
-						<li><input type="checkbox" name="imgs" th:value="${list.value}"></input></li>
+						<li><input type="checkbox" name="imgPath" th:field="*{imgPath}" th:value="${list.key}" /></li>
 						<li><img class="contain" th:src="@{${list.key}}" /></li>
 					</ul>
 				</div>
