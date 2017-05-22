@@ -14,6 +14,7 @@ import com.example.domain.repository.ImageRepository;
 @Transactional
 public class ImageService {
 	@Autowired
+
 	ImageRepository imgRepository;
 
 	public List<Image> findAll() {
