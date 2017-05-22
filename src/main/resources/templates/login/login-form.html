@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>ログイン</title>
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+</head>
+<body>
+<h2>ログインフォーム</h2>
+<div th:if="${param.error}" class="alert alert-danger">
+	ユーザ名またはパスワードが正しくありません
+</div>
+<form th:action="@{/login}" method="POST">
+	<table>
+		<tr>
+			<td><label for="username">UserName:</label></td>
+			<td><input type="text" id="username" name="username"></input></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" id="password" name="password"></input></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><button class="btn btn-1g btn-primary" type="submit">ログイン</button></td>
+		</tr>
+	</table>
+	</form>
+	<p>アカウントをお持ちでない方は<a th:href="@{/account/create}">こちら</a></p>
+	<p>パスワードをお忘れの方は<a th:href="@{/resetPass/forgot}">こちら</a></p>
+</body>
+</html>

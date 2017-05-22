@@ -6,12 +6,8 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class LoginForm {
+public class ForgotPassForm {
 	@NotNull
-	@Size(min = 1, max = 120)
-	private String username;
-	
-	@NotNull
-	@Size(min = 12)
-	private String password;
+	@Size(min = 1, max = 100)
+	private String mailAddress;
 }
