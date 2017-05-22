@@ -20,7 +20,7 @@ public class AccountService {
     PasswordEncoder passwordEncoder;
 
 	public Optional<Account> findUserByEmail(String email){
-		return accountRepository.findByEmail(email);
+		return accountRepository.findByMailAddress(email);
 	}
 
 	public Optional<Account> findUserByResetToken(String resetToken){
