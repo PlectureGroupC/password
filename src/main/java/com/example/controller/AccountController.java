@@ -79,6 +79,7 @@ public class AccountController {
 		for(String path: form.getImgPath()){
 			//Image image = imageService.findImageByImgName(path);
 			//hashSeed = hashSeed + image.getSeed();
+			System.out.println(path);
 			hashSeed = hashSeed + imageService.findImgSeedByImgName(path);
 			//hashSeed = hashSeed + path;
 		}
@@ -94,7 +95,8 @@ public class AccountController {
 		model.addAttribute("form", new AccountForm());
 		return "/account/create";
 	}
-	
+
+	//削除の可能性start
 	@RequestMapping(value="forgotPass", method=RequestMethod.GET)
 	String forgotPass(Model model) {
 		return "/account/forgotPassword";
@@ -107,4 +109,5 @@ public class AccountController {
 		}
 		return "";
 	}
+  //削除の可能性end
 }
