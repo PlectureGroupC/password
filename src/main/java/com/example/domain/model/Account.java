@@ -24,11 +24,14 @@ public class Account implements Serializable{
 	@Column(name="username", nullable=false, unique=true)
 	private String username;
 	
-	@Column(name="mail_address", nullable=false, unique=true)
-	private String mailAddress;
+	@Column(name="email", nullable=false, unique=true)
+	private String email;
 	
 	@Column(name="password", nullable=false)
 	private String password;
+
+	@Column(name="imgHash", nullable=false)
+	private String imgHash;
 	
 	@Column(name="enabled")
 	private boolean enabled;
