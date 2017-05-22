@@ -28,7 +28,7 @@ public class AccountForm {
 	@NotNull
 	@Size(min = 12, max = 100)
 	private String confirmPass;
-	
+
 	@NotNull
 	private List<String> imgPath;
 }
