@@ -1,8 +1,6 @@
 package com.example.controller;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.example.domain.service.ImageService;
 import org.springframework.beans.BeanUtils;
@@ -54,14 +52,16 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="create", method=RequestMethod.POST)
-	//account生成時に呼び出す
+	//account生成の時に呼び出す
 	String create(@Validated AccountForm form, BindingResult result, Model model) {
 		if(result.hasErrors()) {
+			model.addAttribute("error", true);
+			model.addAttribute("errorMessage","入力に不備があります。再度入力してください。");
 			return "/account/create";
 		}
 		if(!form.getMailAddress().equals(form.getConfirmMail())){
 			model.addAttribute("error", true);
-			model.addAttribute("errorMessage", "MailとMail(確認用)の入力が一致しません");
+			model.addAttribute("errorMessage", "EMailとEMail(確認用)の入力が一致しません");
 			return "/account/create";
 		}
 		else if(!form.getPassword().equals(form.getConfirmPass())){
@@ -84,13 +84,30 @@ public class AccountController {
 			//hashSeed = hashSeed + path;
 		}
 		BeanUtils.copyProperties(form, account);
+		account.setImgHash(hashSeed);
 		accountService.create(account);
 		return "redirect:/index";
 	}
 	
 	@RequestMapping(value="create", method=RequestMethod.GET)
+	//初期画面からaccount生成画面への遷移
 	String create(Model model) {
 		model.addAttribute("form", new AccountForm());
 		return "/account/create";
 	}
+
+	//削除の可能性start
+	@RequestMapping(value="forgotPass", method=RequestMethod.GET)
+	String forgotPass(Model model) {
+		return "/account/forgotPassword";
+	}
+	
+	@RequestMapping(value="forgotPass", method=RequestMethod.POST)
+	String forgotPass(@ModelAttribute AccountForm form, BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			return "/account/forgotPass";
+		}
+		return "";
+	}
+  //削除の可能性end
 }

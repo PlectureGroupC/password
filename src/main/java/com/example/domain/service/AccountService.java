@@ -34,8 +34,7 @@ public class AccountService {
 	
 	public Account create(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        //account.setImgHash(passwordEncoder.encode(account.getImgHash()));
-		account.setImgHash(Hash.getHash(account.getImgHash()));
+		    account.setImgHash(Hash.getHash(account.getImgHash()));
         return accountRepository.saveAndFlush(account);
     }
 	

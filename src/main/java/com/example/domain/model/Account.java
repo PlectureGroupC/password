@@ -46,6 +46,5 @@ public class Account implements Serializable{
 	
 	@Column(name="reset_token")
 	private String resetToken;
-	//メール送る時のトークン
-
+	//メールを送る時のトークン
 }
