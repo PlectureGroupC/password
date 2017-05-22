@@ -24,8 +24,8 @@ public class Account implements Serializable{
 	@Column(name="username", nullable=false, unique=true)
 	private String username;
 	
-	@Column(name="email", nullable=false, unique=true)
-	private String email;
+	@Column(name="mail_address", nullable=false, unique=true)
+	private String mailAddress;
 	
 	@Column(name="password", nullable=false)
 	private String password;
@@ -35,13 +35,17 @@ public class Account implements Serializable{
 	
 	@Column(name="enabled")
 	private boolean enabled;
+	//accountロック
 	
 	@Column(name="created_on")
 	private Date createdOn;
+	//account生成時の時間、resetToken発行の時間
 	
 	@Column(name = "last_login")
 	private Date lastLogin;
 	
 	@Column(name="reset_token")
 	private String resetToken;
+	//メール送る時のトークン
+
 }
