@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.Hash;
 import com.example.domain.model.Account;
 import com.example.domain.model.Image;
 import com.example.domain.service.AccountService;
@@ -84,7 +85,7 @@ public class PasswordController {
 			// Email message
 			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
 			passwordResetEmail.setFrom("kszkshine@google.com");
-			passwordResetEmail.setTo(user.getEmail());
+			passwordResetEmail.setTo(user.getMailAddress());
 			passwordResetEmail.setSubject("パスワード再設定のお願い");
 			passwordResetEmail.setText("パスワード再設定のため, 以下のリンクをクリックしてください:\n" + appUrl
 					+ "/resetPass/reset?token=" + user.getResetToken());
@@ -140,7 +141,7 @@ public class PasswordController {
 			hashSeed = hashSeed + imageService.findImgSeedByImgName(path);
 			System.out.println(hashSeed);
 		}
-		if(account.isPresent() && account.get().getImgHash().equals(bCryptPasswordEncoder.encode(hashSeed))){
+		if(account.isPresent() && account.get().getImgHash().equals(Hash.getHash(hashSeed))){
 			modelAndView.setViewName("redirect:/resetPass/resetPass");
 			return modelAndView;
 		}else if(account.isPresent()) {
