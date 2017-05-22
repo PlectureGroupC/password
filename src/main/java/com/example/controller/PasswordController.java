@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,133 +24,174 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.domain.model.User;
+import com.example.domain.model.Account;
+import com.example.domain.model.Image;
+import com.example.domain.service.AccountService;
 import com.example.domain.service.EmailService;
-import com.example.domain.service.UserService;
+import com.example.domain.service.ImageService;
 import com.example.form.ForgotPassForm;
+import com.example.form.ImageCheckForm;
+import com.example.form.ResetPassForm;
 
 @Controller
+@RequestMapping("resetPass")
 public class PasswordController {
 
 	@Autowired
-	private UserService userService;
+	private AccountService accountService;
 
 	@Autowired
 	private EmailService emailService;
 
 	@Autowired
+	private ImageService imageService;
+
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@ModelAttribute
 	ForgotPassForm setUpForm() {
 		return new ForgotPassForm();
 	}
 	
-	final static Map<String, String> CHECK_ITEMS =
-		    Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
-				private static final long serialVersionUID = 178167752967848875L;
-				{
-					put("/images/img1.png", "1");
-					put("/images/img2.png", "2");
-					put("/images/img3.png", "3");
-					put("/images/img4.png", "4");
-					put("/images/img5.png", "5");
-					put("/images/img6.png", "6");
-					put("/images/img7.png", "7");
-					put("/images/img8.png", "8");
-					put("/images/img9.png", "9");
-				}
-		    });
-	
-	@RequestMapping(value = "/forgot", method = RequestMethod.GET)
+	@RequestMapping(value = "forgot", method = RequestMethod.GET)
 	public ModelAndView displayForgotPasswordPage(ModelAndView mav) {
-		mav.addObject("checkItems", CHECK_ITEMS);
+		mav.setViewName("/resetPass/forgot");
 		return mav;
     }
     
 	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
 	public ModelAndView processForgotPasswordForm(@Validated ForgotPassForm form, BindingResult result, ModelAndView modelAndView, HttpServletRequest request) {
-		Optional<User> optional = userService.findUserByEmail(form.getMailAddress());
-		
 		if(result.hasErrors()){
-			modelAndView.addObject("checkItems", CHECK_ITEMS);
-			modelAndView.setViewName("forgot");
+			modelAndView.setViewName("/resetPass/forgot");
 			return modelAndView;
 		}
-		if(form.getImgs().length != 3 || form.getImgs().length == 0){
-			modelAndView.addObject("checkboxError", true);
-			modelAndView.addObject("checkboxErrorMessage", "画像は3枚選択してください");
-			modelAndView.addObject("checkItems", CHECK_ITEMS);
-			modelAndView.setViewName("forgot");
-			return modelAndView;
-		}
+		Optional<Account> optional = accountService.findUserByEmail(form.getMailAddress());
 		if (!optional.isPresent()) {
-			modelAndView.addObject("checkItems", CHECK_ITEMS);
 			modelAndView.addObject("accountNotFoundError", true);
 			modelAndView.addObject("errorMessage", "入力したメールアドレスに該当するアカウントは見つかりません");
+			modelAndView.setViewName("/reset/forgot");
 		} else {
-			User user = optional.get();
+			Account user = optional.get();
 			user.setResetToken(UUID.randomUUID().toString());
-			userService.save(user);
+			accountService.save(user);
 
-			String appUrl = request.getScheme() + "://" + request.getServerName();
+			String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 			
 			// Email message
 			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
 			passwordResetEmail.setFrom("kszkshine@google.com");
 			passwordResetEmail.setTo(user.getEmail());
-			passwordResetEmail.setSubject("Password Reset Request");
+			passwordResetEmail.setSubject("パスワード再設定のお願い");
 			passwordResetEmail.setText("パスワード再設定のため, 以下のリンクをクリックしてください:\n" + appUrl
-					+ "/reset?token=" + user.getResetToken());
+					+ "/resetPass/reset?token=" + user.getResetToken());
 			
 			emailService.sendEmail(passwordResetEmail);
 			
 			modelAndView.addObject("successMessage", "A password reset link has been sent to " + form.getMailAddress());
 		}
-		modelAndView.setViewName("forgot");
+		modelAndView.setViewName("/resetPass/confirmMail");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/reset", method = RequestMethod.GET)
+	@RequestMapping(value = "/reset", params = "token", method = RequestMethod.GET)
 	public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam("token") String token) {
-		Optional<User> user = userService.findUserByResetToken(token);
-
-		if (user.isPresent()) {
+		Map<String, String> checkItems = Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
+			private static final long serialVersionUID = 178167752967848875L;
+			{
+				for(Image img : imageService.findAll()){
+					put(img.getImgName(), String.valueOf(img.getImgId()));
+				}
+			}
+		});
+		Optional<Account> account = accountService.findUserByResetToken(token);
+		if (account.isPresent()) {
+			modelAndView.addObject("checkItems", checkItems);
 			modelAndView.addObject("resetToken", token);
 		} else { 
-			modelAndView.addObject("errorMessage", "Oops!  This is an invalid password reset link.");
+			modelAndView.addObject("error", true);
+			modelAndView.addObject("errorMessage", "申し訳ございません。無効なリンクです。");
 		}
-		modelAndView.setViewName("resetPassword");
+		modelAndView.setViewName("/resetPass/resetPassFirst");
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "reset", method = RequestMethod.POST)
+	public ModelAndView authByImage(ModelAndView modelAndView, @Validated @ModelAttribute ImageCheckForm form, BindingResult result, RedirectAttributes redir) {
+		modelAndView.addObject("token", form.getToken());
+		if(result.hasErrors()) {
+			modelAndView.addObject("error", true);
+			modelAndView.addObject("errorMessage", "不正な値が入力されました。再入力してください。");
+			return modelAndView;
+		}
+
+		if(form.getImgValue().size() != 3){
+			modelAndView.setViewName("redirect:/resetPass/reset");
+			return modelAndView;
+		}
+
+		Optional<Account> account = accountService.findUserByResetToken(form.getToken());
+		String hashSeed = "";
+		for(String path: form.getImgValue()){
+			hashSeed = hashSeed + imageService.findImgSeedByImgName(path);
+			System.out.println(hashSeed);
+		}
+		if(account.isPresent() && account.get().getImgHash().equals(bCryptPasswordEncoder.encode(hashSeed))){
+			modelAndView.setViewName("redirect:/resetPass/resetPass");
+			return modelAndView;
+		}else if(account.isPresent()) {
+			modelAndView.setViewName("redirect:/resetPass/reset");
+		}else {
+			modelAndView.setViewName("redirect:/resetPass/reset");
+		}
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/resetPass", params = "token", method = RequestMethod.GET)
+	public ModelAndView displayResetPassForm(ModelAndView mav, @ModelAttribute ResetPassForm form, BindingResult result, @RequestParam("token") String token) {
+		Optional<Account> account = accountService.findUserByResetToken(token);
+		if(account.isPresent()){
+			mav.addObject("token", token);
+			mav.setViewName("/resetPass/resetPassSecond");
+			return mav;
+		}else {
+			mav.addObject("error", true);
+			mav.addObject("errorMessage", "申し訳ございません。　無効なリンクです。");
+			mav.setViewName("/resetPass/resetPassFirst");
+			return mav;
+		}
+	}
+
 	// Process reset password form
-	@RequestMapping(value = "/reset", method = RequestMethod.POST)
-	public ModelAndView setNewPassword(ModelAndView modelAndView, @RequestParam Map<String, String> requestParams, BindingResult result ,RedirectAttributes redir) {
+	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)
+	public ModelAndView setNewPassword(ModelAndView modelAndView,@ModelAttribute @Validated ResetPassForm form, BindingResult result ,RedirectAttributes redir) {
 		if(result.hasErrors()) {
 			modelAndView.setViewName("forgot");
 			return modelAndView;
 		}
-		Optional<User> user = userService.findUserByResetToken(requestParams.get("token"));
-		
+		Optional<Account> user = accountService.findUserByResetToken(form.getToken());
 		if (user.isPresent()) {
-			User resetUser = user.get(); 
-                  
-			resetUser.setPassword(bCryptPasswordEncoder.encode(requestParams.get("password")));
+			Account resetUser = user.get();
+
+			resetUser.setPassword(bCryptPasswordEncoder.encode(form.getPassword()));
 			resetUser.setResetToken(null);
-			userService.save(resetUser);
-			redir.addFlashAttribute("successMessage", "You have successfully reset your password.  You may now login.");
-			modelAndView.setViewName("redirect:login");
-			
+			accountService.save(resetUser);
+			modelAndView.addObject("successMessage", "パスワードの変更が完了しました。");
+			modelAndView.setViewName("/resetPass/confirmResetPass");
+
 			return modelAndView;
 		} else {
-			modelAndView.addObject("errorMessage", "Oops!  This is an invalid password reset link.");
+			modelAndView.addObject("error", true);
+			modelAndView.addObject("errorMessage", "申し訳ございません。無効なリンクです。");
 			modelAndView.setViewName("resetPassword");
 		}
 		return modelAndView;
-   }
-   
+	}
+
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public ModelAndView handleMissingParams(MissingServletRequestParameterException ex) {
 		return new ModelAndView("redirect:login");
