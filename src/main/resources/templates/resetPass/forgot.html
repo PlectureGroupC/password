@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+	<meta charset="UTF-8" />
+	<title>forgotPass</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h2>Input Email and select images.</h2>
+<div th:if="${accountNotFoundError}" th:text="${errorMessage}" class="alert alert-danger"></div>
+
+<p>登録中のメールアドレスを入力してください</p>
+<div class="center-block">
+	<div>
+		<form th:action="@{/resetPass/forgot}" th:object="${forgotPassForm}" method="POST">
+			<table>
+				<tr>
+					<td><label for="email">Email:</label></td>
+					<td><input type="email" th:field="*{mailAddress}" id="mailAddress" name="mailAddress" /></td>
+				</tr>
+			</table>
+			<button class="btn btn-1g btn-primary" type="submit">送信</button>
+		</form>
+	</div>
+</div>
+</body>
+</html>
