@@ -1,6 +1,6 @@
-package com.example.repository;
+package com.example.domain.repository;
 
-import com.example.model.WebInfo;
+import com.example.domain.model.WebInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 

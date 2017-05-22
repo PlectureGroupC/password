@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import com.example.form.*;
-import com.example.model.WebInfo;
-import com.example.service.WebInfoService;
+import com.example.domain.model.WebInfo;
+import com.example.domain.service.WebInfoService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
