@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.Hash;
 import com.example.domain.model.Account;
 import com.example.domain.repository.AccountRepository;
 
@@ -33,7 +34,8 @@ public class AccountService {
 	
 	public Account create(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account.setImgHash(passwordEncoder.encode(account.getImgHash()));
+        //account.setImgHash(passwordEncoder.encode(account.getImgHash()));
+		account.setImgHash(Hash.getHash(account.getImgHash()));
         return accountRepository.saveAndFlush(account);
     }
 	
