@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import org.slf4j.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -86,13 +87,13 @@ public class WebInfoController {
         return "page/getvalue";
     }
 
-    @RequestMapping(value = "/webinfoList/{mailaddress}", method = RequestMethod.GET)
+    @RequestMapping(value = "/webinfoList/{username}", method = RequestMethod.GET)
     //homeからmailaddressを取得し、DBからデータを取得、送信
-    public String getList(@PathVariable String mailaddress, Model model){
-        System.out.println(mailaddress);
-        List<WebInfo> WebInfoList = service.findWebInfosByMailaddress(mailaddress);
+    public String getList(@PathVariable String username, Model model){
+        System.out.println(username);
+        List<WebInfo> WebInfoList = service.findWebInfosByUsername(username);
         model.addAttribute("list", WebInfoList);
-        model.addAttribute("address", mailaddress);
+        model.addAttribute("username", username);
         return "page/webinfoList";
     }
 
@@ -131,9 +132,11 @@ public class WebInfoController {
         return "page/getvalue";
     }
 
-//    @RequestMapping(value = "/webinfo/detail/{number}", method = RequestMethod.GET)
-//    //webinfoListで詳細を押下された時、押下されたデータの詳細を送信
-//    public String getDetail(@ModelAttribute @Valid @PathVariable Integer number, Model model){
-//
-//    }
+    @RequestMapping(value = "/webinfo/detail/{number}", method = RequestMethod.GET)
+    //webinfoListで詳細を押下された時、押下されたデータの詳細を送信
+    public String getDetail(@ModelAttribute @Valid @PathVariable Integer number, Model model){
+        WebInfo info = service.findWebInfoByNumber(number);
+        model.addAttribute("webinfo", info);
+        return "page/webinfoDetail";
+    }
 }
