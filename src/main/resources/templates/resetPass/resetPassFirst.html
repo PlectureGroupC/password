@@ -7,21 +7,32 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
-<h2>Select images.</h2>
-<div th:if="${error}" th:text="${errorMessage}" class="alert alert-danger"></div>
-
-<p>パスワード再設定用の画像を選択してください</p>
-<form th:action="@{/resetPass/reset}" th:object="${imageCheckForm}" method="POST">
-	<ul th:each="item : ${checkItems}" class="ul">
-		<li>
-			<div class="checkbox">
-				<input type="checkbox" name="imgPath" th:field="*{imgValue}" th:value="${item.key}" />
-				<label th:for="${#ids.prev('imgValue')}"><img class="contain" th:src="@{${item.key}}" /></label>
-			</div>
-		</li>
-	</ul>
-	<input type="hidden" name="token" th:value="*{token}" />
-	<button class="btn btn-1g btn-primary" type="submit">送信</button>
-</form>
+	<div class="container">
+	<div class="row">
+	<h2 class="col-md-8 col-md-offset-2">Select images.</h2>
+	<div class="col-md-8 col-md-offset-2">
+		<div th:if="${error}" th:text="${errorMessage}" class="alert alert-danger"></div>
+	</div>
+	<p class="col-md-8 col-md-offset-2">パスワード再設定用の画像を選択してください</p>
+	<form th:action="@{/resetPass/reset}" th:object="${imageCheckForm}" method="POST">
+		<div class="checkbox" th:each="item : ${checkItems}">
+		<div class="col-md-6 col-md-offset-3">
+			<ul class="ul">
+				<li class="col-md-6 col-md-offset-3">
+					<input type="checkbox" name="imgValue" th:field="*{imgValue}" th:value="${item.key}" />
+						<label th:for="${#ids.prev('imgValue')}">
+							<img class="contain" th:src="@{${item.key}}" />
+						</label>
+				</li>
+			</ul>
+		</div>
+		</div>
+		<input type="hidden" name="token" th:value="*{token}" />
+		<div class="col-md-1 col-md-offset-9">
+			<button class="btn btn-1g btn-primary" type="submit">送信</button>
+		</div>
+	</form>
+	</div>
+	</div>
 </body>
 </html>
