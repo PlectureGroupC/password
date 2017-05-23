@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.domain.model.Account;
+import com.example.domain.service.AccountUserDetails;
 import com.example.repository.LoginRepository;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/home")
-    public String login(@Validated @ModelAttribute @AuthenticationPrincipal Account account, LoginForm form, BindingResult result, Model model) {
-        form.setUsername(account.getUsername());
-        model.addAttribute("success", form);
+    public String login(@AuthenticationPrincipal Account account, Model model) {
         model.addAttribute("webInfoForm", new WebInfoForm());
         return "page/home";
     }
