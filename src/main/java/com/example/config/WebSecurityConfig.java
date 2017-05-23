@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
             .loginPage("/loginForm")
             .loginProcessingUrl("/login")
-            .defaultSuccessUrl("/index", true)
+            .defaultSuccessUrl("/home", true)
             .usernameParameter("username")
             .passwordParameter("password")
             .failureUrl("/loginForm?error")
@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-            .logoutSuccessUrl("/index");
+            .logoutSuccessUrl("/loginForm");
     }
 
     @Override

@@ -10,6 +10,7 @@
 <div th:if="${param.error}" class="alert alert-danger">
 	ユーザ名またはパスワードが正しくありません
 </div>
+<div class="form-group">
 <form th:action="@{/login}" method="POST">
 	<table>
 		<tr>
@@ -26,6 +27,7 @@
 		</tr>
 	</table>
 	</form>
+</div>
 	<p>アカウントをお持ちでない方は<a th:href="@{/account/create}">こちら</a></p>
 	<p>パスワードをお忘れの方は<a th:href="@{/resetPass/forgot}">こちら</a></p>
 </body>
