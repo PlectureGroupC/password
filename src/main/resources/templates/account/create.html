@@ -3,7 +3,7 @@
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ja">
 <head>
 	<meta charset="UTF-8" />
-	<title>新規</title>
+	<title>新規登録</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 	<script src="https://code.jquery.com/jquery-3.0.0.min.js" type="text/javascript"></script>
@@ -58,11 +58,11 @@
 				</div>
 			</div>
 			
-			<p class="col-md-8 col-md-offset-2">以下から画像を3枚選択してください</p>
+			<p class="col-md-8 col-md-offset-2">以下から画像を3枚選択してください(パスワードを忘れてしまったときに必要になる画像です)</p>
 			<div class="checkbox" th:each="list : ${checkItems}">
 				<div class="col-md-6 col-md-offset-3">
 					<ul class="ul">
-						<li class="col-md-8 col-md-offset-2">
+						<li class="col-md-6 col-md-offset-3">
 							<input type="checkbox" name="imgPath" th:field="*{imgPath}" th:value="${list.key}" />
 							<label th:for="${#ids.prev('imgPath')}">
 								<img class="contain" th:src="@{${list.key}}" />
