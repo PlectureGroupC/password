@@ -12,8 +12,8 @@
 
         <table class="table" th:object="${webInfoForm}">
             <tr>
-                <th class="col-md-3"> mailaddress </th>
-                <td class="col-md-9" th:text="*{mailaddress}"></td>
+                <th class="col-md-3"> username </th>
+                <td class="col-md-9" th:text="${#authentication.principal.username}"></td>
             </tr>
             <tr>
                 <th class="col-md-3"> Webpage Name </th>

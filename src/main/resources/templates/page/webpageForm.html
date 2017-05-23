@@ -4,8 +4,8 @@
     <script src="/js/rand.js" th:src="@{/js/rand.js}"></script>
 </head>
 <body>
-<header th:replace="_temp :: header (${webInfoForm.mailaddress})"></header>
-    <div class="container">
+<header th:replace="_temp :: header (${#authentication.principal.username})"></header>
+        <div class="container">
         <div class="page-header">
             <div class="row">
                 <br />
@@ -16,7 +16,7 @@
 
         <form class="form-horizontal" role="form" action="/webpageForm" th:action="@{/webpageForm}" th:object="${webInfoForm}" method="post">
             <div class="form-group">
-                <input type="hidden" class="form-control" id="inputMailaddress" name="mailaddress" th:value="*{username}"/>
+                <input type="hidden" class="form-control" id="inputUsername" name="username" th:value="${#authentication.principal.username}"/>
             </div>
             <div class="form-group">
                 <label class="control-label" for="inputName"><abbr title="required"></abbr> Webpage Name :</label>

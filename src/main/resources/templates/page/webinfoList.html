@@ -35,7 +35,7 @@
                         <td>
                             <form role="form" action="/webinfo/getWebInfo" th:action="@{/webinfo/getWebInfo}" th:object="${webInfoForm}" method="get">
                                 <input type="hidden" id="inputNumber" name="number" th:value="${webinfo.number}" />
-                                <input type="hidden" id="inputMailaddress" name="mailaddress" th:value="${webinfo.username}"  />
+                                <input type="hidden" id="inputUsername" name="username" th:value="${#authentication.principal.username}"  />
                                 <button type="submit" class="btn btn-info"> 変更 </button>
                             </form>
                         </td>

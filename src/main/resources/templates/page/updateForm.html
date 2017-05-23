@@ -13,7 +13,7 @@
         <div class="form-group">
             <form class="form-horizontal" role="form" action="/webinfo/update" th:action="@{/webinfo/update}" th:object="${webInfoForm}" method="post">
                 <input type="hidden" id="inputNumber" name="number" th:value="*{number}" />
-                <input type="hidden" id="inputMailaddress" name="mailaddress" th:value="*{mailaddress}" />
+                <input type="hidden" id="inputUsername" name="username" th:value="${#authentication.principal.username}" />
 
                 <label class="control-label" for="inputName"><abbr title="required"></abbr> Webpage Name :</label>
                 <input type="text" class="form-control" id="inputName" name="name" th:field="*{name}" />

@@ -3,7 +3,7 @@
 <head th:replace="_temp :: head ('Detail')">
 </head>
 <body>
-    <header th:replace="_temp :: header (${webinfo.username})"></header>
+    <header th:replace="_temp :: header (${#authentication.principal.username})"></header>
 
     <div class="container">
         <div class="page-header">
@@ -37,7 +37,7 @@
                 <div class="btn-group">
                     <form role="form" action="/webinfo/getWebInfo" th:action="@{/webinfo/getWebInfo}" th:object="${webInfoForm}" method="get">
                         <input type="hidden" id="inputNumber" name="number" th:value="${webinfo.number}" />
-                        <input type="hidden" id="inputMailaddress" name="mailaddress" th:value="${webinfo.mailaddress}"  />
+                        <input type="hidden" id="inputUsername" name="username" th:value="${#authentication.principal.username}"  />
                         <button type="submit" class="btn btn-info"> 変更 </button>
                     </form>
                     <a class="btn btn-warning" href="/webinfo/delete/${webinfo.number}" th:href="@{/webinfo/delete/{number}(number=${webinfo.number})}"> 削除 </a>
