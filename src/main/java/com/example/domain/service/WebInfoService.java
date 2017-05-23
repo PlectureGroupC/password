@@ -27,8 +27,8 @@ public class WebInfoService {
     public void delete(WebInfo info){
         repository.delete(info);
     }
-    public List<WebInfo> findWebInfosByMailaddress(String mailaddress){
-        List<WebInfo> infos = repository.findWebInfosByMailaddress(mailaddress);
+    public List<WebInfo> findWebInfosByMailaddress(String username){
+        List<WebInfo> infos = repository.findWebInfosByUsername(username);
         return infos;
     }
     public WebInfo findWebInfoByNumber(Integer number){

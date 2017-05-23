@@ -47,7 +47,7 @@ public class WebInfoController {
 
     @RequestMapping(value = "/getvalue", method = RequestMethod.POST)
     public String getValue(@Validated @ModelAttribute("webInfoForm") WebInfoForm form, BindingResult result, Model model){
-        String address = form.getMailaddress();
+        String username = form.getUsername();
         String name = form.getName();
         String url = form.getUrl();
         String userID = form.getUserID();
@@ -57,7 +57,7 @@ public class WebInfoController {
         System.out.println(result);
         if (result.hasErrors()){
             model.addAttribute("validationError", "不正な値");
-            System.out.println(address);
+            System.out.println(username);
             System.out.println(name);
             System.out.println(url);
             System.out.println(userID);
@@ -71,12 +71,12 @@ public class WebInfoController {
     //webpageFormからWebInfoを取得、DBに保存する
     public String register(@ModelAttribute @Valid WebInfoForm form, BindingResult result, Model model){
         if(!result.hasErrors()){
-            String mailaddress = form.getMailaddress();
+            String username = form.getUsername();
             String name = form.getName();
             String url = form.getUrl();
             String userID = form.getUserID();
             String password = form.getPassword();
-            service.save(new WebInfo(mailaddress, name, url, userID, password));
+            service.save(new WebInfo(username, name, url, userID, password));
         }else{
             model.addAttribute("validationError", "不正な値");
             model.addAttribute("form", form);
@@ -103,7 +103,7 @@ public class WebInfoController {
         WebInfo info = service.findWebInfoByNumber(number);
         service.delete(info);
         attributes.addFlashAttribute("deletemessage", "データを削除しました");
-        return "redirect:/webinfoList/" + info.mailaddress;
+        return "redirect:/webinfoList/" + info.username;
     }
 
     @RequestMapping(value = "/webinfo/getWebInfo", method = RequestMethod.GET)
@@ -117,12 +117,12 @@ public class WebInfoController {
     public String update(@ModelAttribute @Valid WebInfoForm form, BindingResult result, Model model){
         if(!result.hasErrors()){
             Integer number = form.getNumber();
-            String mailaddress = form.getMailaddress();
+            String username = form.getUsername();
             String name = form.getName();
             String url = form.getUrl();
             String userID = form.getUserID();
             String password = form.getPassword();
-            service.update(new WebInfo(number, mailaddress, name, url, userID, password));
+            service.update(new WebInfo(number, username, name, url, userID, password));
         }else{
             model.addAttribute("validationError", "不正な値");
             model.addAttribute("form", form);

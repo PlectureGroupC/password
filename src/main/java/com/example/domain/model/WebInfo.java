@@ -10,8 +10,8 @@ public class WebInfo {
     @Column(name = "number")
     public int number;
 
-    @Column(name = "mail_address")
-    public String mailaddress;
+    @Column(name = "username")
+    public String username;
 
     @Column(name = "web_name")
     public String name;
@@ -29,16 +29,16 @@ public class WebInfo {
     public WebInfo(){
     }
 
-    public WebInfo(String mailaddress, String name, String url, String userID, String password){
-        this.mailaddress = mailaddress;
+    public WebInfo(String username, String name, String url, String userID, String password){
+        this.username = username;
         this.name = name;
         this.url = url;
         this.userID = userID;
         this.password = password;
     }
-    public WebInfo(Integer number, String mailaddress, String name, String url, String userID, String password){
+    public WebInfo(Integer number, String username, String name, String url, String userID, String password){
         this.number = number;
-        this.mailaddress = mailaddress;
+        this.username = username;
         this.name = name;
         this.url = url;
         this.userID = userID;

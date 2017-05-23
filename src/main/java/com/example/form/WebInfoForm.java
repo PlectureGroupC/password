@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 public class WebInfoForm {
     @NotNull    //mail address
-    private String mailaddress;
+    private String username;
 
     private String name;
 
@@ -18,11 +18,11 @@ public class WebInfoForm {
 
     private Integer number;
 
-    public String getMailaddress(){
-        return mailaddress;
+    public String getUsername(){
+        return username;
     }
-    public void setMailaddress(String mailaddress){
-        this.mailaddress = mailaddress;
+    public void setUsername(String username){
+        this.username = username;
     }
     public String getName(){
         return name;
