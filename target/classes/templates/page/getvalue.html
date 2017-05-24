@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> get value</title>
+    <link href="/honoka/css/bootstrap.css" th:src="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Get Form</h1>
+        </div>
+
+        <table class="table" th:object="${webInfoForm}">
+            <tr>
+                <th class="col-md-3"> username </th>
+                <td class="col-md-9" th:text="${#authentication.principal.username}"></td>
+            </tr>
+            <tr>
+                <th class="col-md-3"> Webpage Name </th>
+                <td class="col-md-9" th:text="*{name}"></td>
+            </tr>
+            <tr>
+                <th class="col-md-3"> Webpage url </th>
+                <td class="col-md-9" th:text="*{url}"></td>
+            </tr>
+            <tr>
+                <th class="col-md-3"> Webpage UserID </th>
+                <td class="col-md-9" th:text="*{userID}"></td>
+            </tr>
+            <tr>
+                <th class="col-md-3"> Webpage Password </th>
+                <td class="col-md-9" th:text="*{password}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

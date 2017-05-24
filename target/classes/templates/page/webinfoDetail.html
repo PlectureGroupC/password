@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_temp :: head ('Detail')">
+</head>
+<body>
+    <header th:replace="_temp :: header (${#authentication.principal.username})"></header>
+
+    <div class="container">
+        <div class="page-header">
+            <div class="row">
+                <br />
+                <h1> Detail </h1>
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th> WebPage Name </th>
+                <td th:text="${webinfo.name}"></td>
+            </tr>
+            <tr>
+                <th> WebPage URL </th>
+                <td th:text="${webinfo.url}"></td>
+            </tr>
+            <tr>
+                <th> WebPage UserID </th>
+                <td th:text="${webinfo.userID}"></td>
+            </tr>
+            <tr>
+                <th> WebPage Password </th>
+                <td>
+                    <button>表示</button>
+                    <p id="pass" style="display: none;" th:text="${webinfo.password}"></p>
+                </td>
+            </tr>
+        </table>
+                <div class="btn-group">
+                    <form role="form" action="/webinfo/getWebInfo" th:action="@{/webinfo/getWebInfo}" th:object="${webInfoForm}" method="get">
+                        <input type="hidden" id="inputNumber" name="number" th:value="${webinfo.number}" />
+                        <input type="hidden" id="inputUsername" name="username" th:value="${#authentication.principal.username}"  />
+                        <button type="submit" class="btn btn-info"> 変更 </button>
+                    </form>
+                    <a class="btn btn-warning" href="/webinfo/delete/${webinfo.number}" th:href="@{/webinfo/delete/{number}(number=${webinfo.number})}"> 削除 </a>
+                </div>
+
+    </div>
+    <script>
+        $(function(){
+           $('button').click(function () {
+               $('p').show();
+           });
+        });
+    </script>
+</body>
+</html>

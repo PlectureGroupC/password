@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+	<meta charset="UTF-8" />
+	<title>resetPass</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<div class="container">
+		<div class="card card-container">
+			<h2>Reset Password.</h2>
+			<div th:if="${error}" th:text="${errorMessage}" class="alert alert-danger"></div>
+			<p>新しいパスワードを入力してください</p>
+			<form class="form-signin" th:action="@{/resetPass/resetPass}" th:object="${resetPassForm}" method="POST">
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input class="form-control" type="password" th:field="*{password}" id="password" name="password" />
+			</div>
+			<div class="form-group">
+				<label>Password(確認用)</label>
+				<input class="form-control" type="password" th:field="*{confirmPass}" id="confirmPass" name="confirmPass" />
+			</div>
+			<input type="hidden" name="token" th:value="*{token}" />
+			<button class="btn btn-1g btn-primary" type="submit">送信</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
