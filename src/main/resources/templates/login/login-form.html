@@ -14,6 +14,9 @@
 	<div th:if="${param.error}" class="alert alert-danger">
 		ユーザ名またはパスワードが正しくありません
 	</div>
+	<div th:if="${param.logout}" class="alert alert-danger">
+		ログアウトしました
+	</div>
 	<div class="form-group">
 		<form class="form-signin" th:action="@{/login}" method="POST">
 			<div class="form-group">
