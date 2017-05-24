@@ -86,7 +86,7 @@ public class AccountController {
 		BeanUtils.copyProperties(form, account);
 		account.setImgHash(hashSeed);
 		accountService.create(account);
-		return "redirect:/index";
+		return "redirect:/home/index";
 	}
 	
 	@RequestMapping(value="create", method=RequestMethod.GET)

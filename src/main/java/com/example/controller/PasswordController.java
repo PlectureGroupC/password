@@ -92,7 +92,7 @@ public class PasswordController {
 			
 			emailService.sendEmail(passwordResetEmail);
 			
-			modelAndView.addObject("successMessage", "A password reset link has been sent to " + form.getMailAddress());
+			modelAndView.addObject("successMessage", "パスワード再設定用のリンクを " + form.getMailAddress() + "へ送りました。");
 		}
 		modelAndView.setViewName("/resetPass/confirmMail");
 		
@@ -100,7 +100,7 @@ public class PasswordController {
 	}
 	
 	@RequestMapping(value = "/reset", params = "token", method = RequestMethod.GET)
-	public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam("token") String token) {
+	public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam("token") String token, @ModelAttribute ImageCheckForm form) {
 		Map<String, String> checkItems = Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
 			private static final long serialVersionUID = 178167752967848875L;
 			{
@@ -173,6 +173,11 @@ public class PasswordController {
 		if(result.hasErrors()) {
 			modelAndView.setViewName("forgot");
 			return modelAndView;
+		}
+		if(form.getPassword() != form.getConfirmPass()){
+			modelAndView.addObject("error", true);
+			modelAndView.addObject("errorMessage", "PasswordとPassword(確認用)が一致しません");
+			modelAndView.setViewName("/resetPass/resetPassSecond");
 		}
 		Optional<Account> user = accountService.findUserByResetToken(form.getToken());
 		if (user.isPresent()) {
