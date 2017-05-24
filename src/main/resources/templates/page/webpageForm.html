@@ -33,15 +33,15 @@
                 <label class="control-label" for="inputPassword"><addr title="required"></addr> Webpage Password : </label>
                 <input type="password" class="form-control" id="inputPassword" name="password" th:field="*{password}" />
             </div>
-            <div class="form-group">
-
-            </div>
             <button type="submit" class="btn btn-default"> send </button>
         </form>
         <form name="randForm">
             <input type="button" onClick="makeRandStr(this.form.line.value)" value="パスワード生成" />
             <input type="number" min="8" max="32" value="12" name="line" id="line"/>
-            <input type="text" name="output" />
+            <input type="text" name="output" size="32" id="pass" />
+            <button class="btn" data-clipboard-target="#pass">
+                クリップボードにコピー
+            </button>
         </form>
     </div>
 </body>

@@ -5,10 +5,19 @@
     <meta charset="UTF-8" />
     <link href="/honoka/css/bootstrap.css" th:src="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
     <script src="/js/rand.js" th:src="@{/js/rand.js}"></script>
+    <!--
     <script src="/vendor/jquery/jquery-1.11.3.js" th:src="@{/vendor/jquery/jquery-1.11.3.js}"></script>
+    -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <script>
+        $(function (){
+           var clipboard = new Clipboard('.btn');
+        });
+    </script>
 </head>
 <body>
-    <header th:fragment="header (mailaddress)">
+    <header th:fragment="header (username)">
         <div class="navbar navbar-fixed-top navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -19,7 +28,7 @@
                         <li>
                             <form role="form" action="/home" th:action="@{/home}" th:object="${loginForm}" method="post">
                                 <br />
-                                <input type="hidden" id="inputUsername" name="username" th:value="${#authentication.principal.username}" />
+                                <input type="hidden" id="inputUsername" name="username" th:value="${username}" />
                                 <button type="submit" class="btn btn-default"> Home </button>
                             </form>
                         </li>
@@ -29,6 +38,5 @@
             </div>
         </div>
     </header>
-
 </body>
 </html>
