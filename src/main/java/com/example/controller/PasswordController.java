@@ -72,9 +72,9 @@ public class PasswordController {
 		}
 		Optional<Account> optional = accountService.findUserByEmail(form.getMailAddress());
 		if (!optional.isPresent()) {
+			modelAndView.addObject("accountNotFoundError", true);
 			modelAndView.addObject("errorMessage", "入力したメールアドレスに該当するアカウントは見つかりません");
-			modelAndView.setViewName("/resetPass/refusedResetPass");
-			return modelAndView;
+			modelAndView.setViewName("/reset/forgot");
 		} else {
 			Account user = optional.get();
 			user.setResetToken(UUID.randomUUID().toString());
@@ -89,12 +89,14 @@ public class PasswordController {
 			passwordResetEmail.setSubject("パスワード再設定のお願い");
 			passwordResetEmail.setText("パスワード再設定のため, 以下のリンクをクリックしてください:\n" + appUrl
 					+ "/resetPass/reset?token=" + user.getResetToken());
+			
 			emailService.sendEmail(passwordResetEmail);
 			
 			modelAndView.addObject("successMessage", "パスワード再設定用のリンクを " + form.getMailAddress() + "へ送りました。");
-			modelAndView.setViewName("/resetPass/confirmMail");
-			return modelAndView;
 		}
+		modelAndView.setViewName("/resetPass/confirmMail");
+		
+		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/reset", params = "token", method = RequestMethod.GET)
@@ -111,13 +113,12 @@ public class PasswordController {
 		if (account.isPresent()) {
 			modelAndView.addObject("checkItems", checkItems);
 			modelAndView.addObject("resetToken", token);
-			modelAndView.setViewName("/resetPass/resetPassFirst");
-			return modelAndView;
 		} else { 
+			modelAndView.addObject("error", true);
 			modelAndView.addObject("errorMessage", "申し訳ございません。無効なリンクです。");
-			modelAndView.setViewName("/resetPass/invalidLink");
-			return modelAndView;
 		}
+		modelAndView.setViewName("/resetPass/resetPassFirst");
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "reset", method = RequestMethod.POST)
@@ -128,14 +129,13 @@ public class PasswordController {
 			modelAndView.addObject("errorMessage", "不正な値が入力されました。再入力してください。");
 			return modelAndView;
 		}
-		Optional<Account> account = accountService.findUserByResetToken(form.getToken());
+
 		if(form.getImgValue().size() != 3){
-			account.get().setResetToken(null);
-			accountService.save(account.get());
-			modelAndView.addObject("errorMessage", "画像の選択が正しくありませんでした。再度やり直してください。");
-			modelAndView.setViewName("/resetPass/refusedResetPass");
+			modelAndView.setViewName("redirect:/resetPass/reset");
 			return modelAndView;
 		}
+
+		Optional<Account> account = accountService.findUserByResetToken(form.getToken());
 		String hashSeed = "";
 		for(String path: form.getImgValue()){
 			hashSeed = hashSeed + imageService.findImgSeedByImgName(path);
@@ -145,18 +145,11 @@ public class PasswordController {
 			modelAndView.setViewName("redirect:/resetPass/resetPass");
 			return modelAndView;
 		}else if(account.isPresent()) {
-			account.get().setResetToken(null);
-			accountService.save(account.get());
-			modelAndView.addObject("errorMessage", "画像の選択が正しくありませんでした。再度やり直してください。");
-			modelAndView.setViewName("/resetPass/refusedResetPass");
-			return modelAndView;
+			modelAndView.setViewName("redirect:/resetPass/reset");
 		}else {
-			account.get().setResetToken(null);
-			accountService.save(account.get());
-			modelAndView.addObject("errorMessage", "このページは表示できません。");
-			modelAndView.setViewName("/resetPass/refusedResetPass");
-			return modelAndView;
+			modelAndView.setViewName("redirect:/resetPass/reset");
 		}
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/resetPass", params = "token", method = RequestMethod.GET)
@@ -181,28 +174,28 @@ public class PasswordController {
 			modelAndView.setViewName("forgot");
 			return modelAndView;
 		}
-		Optional<Account> user = accountService.findUserByResetToken(form.getToken());
-		if(!form.getPassword().equals(form.getConfirmPass())){
-			user.get().setResetToken(null);
-			accountService.save(user.get());
-			modelAndView.addObject("errorMessage", "PasswordとPassword(確認用)が一致しません。再度やり直してください。");
-			modelAndView.setViewName("/resetPass/refusedResetPass");
-			return modelAndView;
+		if(form.getPassword() != form.getConfirmPass()){
+			modelAndView.addObject("error", true);
+			modelAndView.addObject("errorMessage", "PasswordとPassword(確認用)が一致しません");
+			modelAndView.setViewName("/resetPass/resetPassSecond");
 		}
-		
+		Optional<Account> user = accountService.findUserByResetToken(form.getToken());
 		if (user.isPresent()) {
 			Account resetUser = user.get();
+
 			resetUser.setPassword(bCryptPasswordEncoder.encode(form.getPassword()));
 			resetUser.setResetToken(null);
 			accountService.save(resetUser);
 			modelAndView.addObject("successMessage", "パスワードの変更が完了しました。");
 			modelAndView.setViewName("/resetPass/confirmResetPass");
+
 			return modelAndView;
 		} else {
+			modelAndView.addObject("error", true);
 			modelAndView.addObject("errorMessage", "申し訳ございません。無効なリンクです。");
-			modelAndView.setViewName("/resetPass/invalidLink");
-			return modelAndView;
+			modelAndView.setViewName("resetPassword");
 		}
+		return modelAndView;
 	}
 
 	@ExceptionHandler(MissingServletRequestParameterException.class)
