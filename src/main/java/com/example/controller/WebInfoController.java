@@ -35,7 +35,6 @@ public class WebInfoController {
     @RequestMapping(value = "/getvalue", method = RequestMethod.GET) // valueをログイン後のページのアドレスにする
     public String get(Model model){
         model.addAttribute("data", service.findAll());
-        System.out.println("WebInfoController get throw");
         return "page/getvalue";
     }
 
@@ -53,7 +52,6 @@ public class WebInfoController {
         String url = form.getUrl();
         String userID = form.getUserID();
         String password = form.getPassword();
-        System.out.println("WebInfoController getValue throw");
 
         System.out.println(result);
         if (result.hasErrors()){
@@ -90,7 +88,6 @@ public class WebInfoController {
     @RequestMapping(value = "/webinfoList/{username}", method = RequestMethod.GET)
     //homeからmailaddressを取得し、DBからデータを取得、送信
     public String getList(@PathVariable String username, Model model){
-        System.out.println(username);
         List<WebInfo> WebInfoList = service.findWebInfosByUsername(username);
         model.addAttribute("list", WebInfoList);
         model.addAttribute("username", username);
@@ -108,8 +105,11 @@ public class WebInfoController {
     }
 
     @RequestMapping(value = "/webinfo/getWebInfo", method = RequestMethod.GET)
-    //webinfoListで変更が押下された時、mailaddressを送信し、遷移する
+    //webinfoListで変更が押下された時、usernameを送信し、遷移する
     public String getWebInfo(WebInfoForm form, Model model){
+        Integer number = form.getNumber();
+        WebInfo info = service.findWebInfoByNumber(number);
+        model.addAttribute("webinfo", info);
         model.addAttribute("form", form);
         return "page/updateForm";
     }

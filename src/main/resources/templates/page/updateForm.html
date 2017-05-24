@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title> update page </title>
-    <link href="/honoka/css/bootstrap.css" th:href="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
+<head th:replace="_temp :: head ('update page')">
 </head>
 <body>
+<header th:replace="_temp :: header (${#authentication.principal.username})"></header>
     <div class="container">
         <div class="page-header">
+            <br />
             <h1> WebPage Infomation Update</h1>
             <p th:if="${validationError}" th:text="${validationError}">validation error</p>
         </div>
@@ -16,18 +16,24 @@
                 <input type="hidden" id="inputUsername" name="username" th:value="${#authentication.principal.username}" />
 
                 <label class="control-label" for="inputName"><abbr title="required"></abbr> Webpage Name :</label>
-                <input type="text" class="form-control" id="inputName" name="name" th:field="*{name}" />
+                <input type="text" class="form-control" id="inputName" name="name" th:value="${webinfo.name}" />
 
                 <label class="control-label" for="inputURL"><addr title="required"></addr> Webpage url : </label>
-                <input type="text" class="form-control" id="inputURL" name="url" th:field="*{url}" />
+                <input type="text" class="form-control" id="inputURL" name="url" th:value="${webinfo.url}"/>
 
                 <label class="control-label" for="inputUserID"><addr title="required"></addr> Webpage UserID : </label>
-                <input type="text" class="form-control" id="inputUserID" name="userID" th:field="*{userID}" />
+                <input type="text" class="form-control" id="inputUserID" name="userID" th:value="${webinfo.userID}" />
 
                 <label class="control-label" for="inputPassword"><addr title="required"></addr> Webpage Password : </label>
                 <input type="password" class="form-control" id="inputPassword" name="password" th:field="*{password}" />
 
                 <button type="submit" class="btn btn-default"> send </button>
+            </form>
+            <form name="randForm">
+                <input type="button" onClick="makeRandStr(this.form.line.value)" value="パスワード生成" />
+                <input type="number" min="8" max="32" value="12" name="line" id="line"/>
+                <input type="text" name="output" size="32" id="pass" />
+                <button class="btn" data-clipboard-target="#pass">クリップボードにコピー</button>
             </form>
         </div>
     </div>
