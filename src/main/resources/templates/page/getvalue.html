@@ -5,6 +5,7 @@
     <link href="/honoka/css/bootstrap.css" th:src="@{/honoka/css/bootstrap.css}" rel="stylesheet" />
 </head>
 <body>
+	<header th:include="_temp :: header(${#authentication.principal.username})"></header>
     <div class="container">
         <div class="page-header">
             <h1>Get Form</h1>
