@@ -33,19 +33,24 @@ public class AccountController {
 
 	@ModelAttribute("checkItems")
 	private Map<String, String> getCheckItems(){
+		List<String> pathList = new LinkedList<String>();
+		pathList.add("/images/img1.png");
+		pathList.add("/images/img2.png");
+		pathList.add("/images/img3.png");
+		pathList.add("/images/img4.png");
+		pathList.add("/images/img5.png");
+		pathList.add("/images/img6.png");
+		pathList.add("/images/img7.png");
+		pathList.add("/images/img8.png");
+		pathList.add("/images/img9.png");
+		Collections.shuffle(pathList);
 		final Map<String, String> CHECK_ITEMS =
 				Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
 					private static final long serialVersionUID = 178167752967848875L;
 					{
-						put("/images/img1.png", "1");
-						put("/images/img2.png", "2");
-						put("/images/img3.png", "3");
-						put("/images/img4.png", "4");
-						put("/images/img5.png", "5");
-						put("/images/img6.png", "6");
-						put("/images/img7.png", "7");
-						put("/images/img8.png", "8");
-						put("/images/img9.png", "9");
+						for(int i = 0; i < pathList.size(); i++){
+							put(pathList.get(i),String.valueOf(i));
+						}
 					}
 				});
 		return CHECK_ITEMS;
