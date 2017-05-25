@@ -12,10 +12,10 @@
         <div class="navbar navbar-fixed-top navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="/" class="navbar-brand">Password Manager</a>
+                    <a th:href="@{/home}" class="navbar-brand">Password Manager</a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <form role="form" action="/home" th:action="@{/home}" th:object="${loginForm}" method="post">
                                 <br />
