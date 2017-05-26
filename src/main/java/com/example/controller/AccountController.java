@@ -34,24 +34,11 @@ public class AccountController {
 	@ModelAttribute("checkItems")
 	private Map<String, String> getCheckItems(){
 		List<String> pathList = new LinkedList<String>();
-		pathList.add("/images/img1.png");
-		pathList.add("/images/img2.png");
-		pathList.add("/images/img3.png");
-		pathList.add("/images/img4.png");
-		pathList.add("/images/img5.png");
-		pathList.add("/images/img6.png");
-		pathList.add("/images/img7.png");
-		pathList.add("/images/img8.png");
-		pathList.add("/images/img9.png");
-		pathList.add("/images/img10.png");
-		pathList.add("/images/img11.png");
-		pathList.add("/images/img12.png");
-		pathList.add("/images/img13.png");
-		pathList.add("/images/img14.png");
-		pathList.add("/images/img15.png");
-		pathList.add("/images/img16.png");
-		pathList.add("/images/img17.png");
-		pathList.add("/images/img18.png");
+		int length = 18;
+		for(int i = 1; i <= length; i++){
+			String path = "/images/img" + String.valueOf(i) + ".png";
+			pathList.add(path);
+		}
 		Collections.shuffle(pathList);
 		final Map<String, String> CHECK_ITEMS =
 				Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
