@@ -43,6 +43,15 @@ public class AccountController {
 		pathList.add("/images/img7.png");
 		pathList.add("/images/img8.png");
 		pathList.add("/images/img9.png");
+		pathList.add("/images/img10.png");
+		pathList.add("/images/img11.png");
+		pathList.add("/images/img12.png");
+		pathList.add("/images/img13.png");
+		pathList.add("/images/img14.png");
+		pathList.add("/images/img15.png");
+		pathList.add("/images/img16.png");
+		pathList.add("/images/img17.png");
+		pathList.add("/images/img18.png");
 		Collections.shuffle(pathList);
 		final Map<String, String> CHECK_ITEMS =
 				Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
