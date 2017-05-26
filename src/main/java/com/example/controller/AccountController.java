@@ -2,6 +2,8 @@ package com.example.controller;
 
 import java.util.*;
 
+import com.example.ImageComparator;
+import com.example.domain.model.Image;
 import com.example.domain.service.ImageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,12 +79,14 @@ public class AccountController {
 		}
 		Account account = new Account();
 		String hashSeed = "";
-		for(String path: form.getImgPath()){
-			//Image image = imageService.findImageByImgName(path);
-			//hashSeed = hashSeed + image.getSeed();
-			System.out.println(path);
-			hashSeed = hashSeed + imageService.findImgSeedByImgName(path);
-			//hashSeed = hashSeed + path;
+		List<String> list = new LinkedList<String>();
+		for(String path: form.getImgPath()) {
+			list.add(path);
+		}
+		Collections.sort(list, new ImageComparator());
+		for(int i = 0; i < list.size(); i++){
+			hashSeed = hashSeed + imageService.findImgSeedByImgName(list.get(i));
+			System.out.println(list.get(i));
 		}
 		BeanUtils.copyProperties(form, account);
 		account.setImgHash(hashSeed);
