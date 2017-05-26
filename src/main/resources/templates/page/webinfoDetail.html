@@ -29,8 +29,12 @@
             <tr>
                 <th> WebPage Password </th>
                 <td>
-                    <button>表示</button>
-                    <p id="pass" style="display: none;" th:text="${webinfo.password}"></p>
+                    <p id="pass" th:text="${webinfo.password}"></p>
+                </td>
+                <td>
+                    <button class="btn" data-clipboard-target="#pass">
+                        クリップボードにコピー
+                    </button>
                 </td>
             </tr>
         </table>
@@ -45,12 +49,5 @@
             <a class="btn btn-warning" href="/webinfo/delete/${webinfo.number}" th:href="@{/webinfo/delete/{number}(number=${webinfo.number})}"> 削除 </a>
         </div>
     </div>
-    <script>
-        $(function(){
-           $('button').click(function () {
-               $('p').show();
-           });
-        });
-    </script>
 </body>
 </html>
