@@ -34,7 +34,7 @@ public class AccountController {
 	@ModelAttribute("checkItems")
 	private Map<String, String> getCheckItems(){
 		List<String> pathList = new LinkedList<String>();
-		int length = 18;
+		int length = 20;
 		for(int i = 1; i <= length; i++){
 			String path = "/images/img" + String.valueOf(i) + ".png";
 			pathList.add(path);
